@@ -20,10 +20,7 @@ const app = isBrowser
     : initializeApp(firebaseConfig)
   : undefined;
 
-// ✅ Use correct types instead of `any`
-export const auth: Auth = isBrowser
-  ? getAuth(app!)
-  : ({} as unknown as Auth);
+export const auth: Auth = isBrowser ? getAuth(app!) : ({} as unknown as Auth);
 
 export const db: Firestore = isBrowser
   ? getFirestore(app!)
