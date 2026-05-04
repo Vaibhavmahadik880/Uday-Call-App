@@ -10,7 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import {  getAuthInstance, getDbInstance } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 type AuthFormValues = {
@@ -34,8 +34,7 @@ export default function AuthForm() {
       role: "mentee",
     },
   });
-const auth = getAuthInstance();
-const db = getDbInstance();
+
   const handleAuth: SubmitHandler<AuthFormValues> = async (formData) => {
     setError("");
     setLoading(true);
