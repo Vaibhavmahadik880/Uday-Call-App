@@ -3,27 +3,27 @@ name: Mentoring Platform CI
 on:
   push:
     branches:
-      - main
       - master
   pull_request:
     branches:
-      - main
       - master
   workflow_dispatch:
-
-defaults:
-  run:
-    working-directory: mentoring-platform
 
 jobs:
   validate:
     name: Lint, Type Check, and Build
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: mentoring-platform
+
     steps:
+      # 1. Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,15 +31,19 @@ jobs:
           cache: npm
           cache-dependency-path: mentoring-platform/package-lock.json
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4. Lint
       - name: Run lint
         run: npm run lint
 
+      # 5. Type check
       - name: Run type check
         run: npx tsc --noEmit
 
+      # 6. Build
       - name: Build application
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
