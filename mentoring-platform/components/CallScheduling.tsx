@@ -6,7 +6,7 @@ import { useScheduling } from "@/hooks/useScheduling";
 import { UserProfile } from "@/hooks/useFetchUsers";
 import { readDate } from "@/lib/firestoreData";
 import { motion } from "framer-motion";
-import WebRTCCall from "./WebRTCCall";
+import WebRTCCall from "@/components/WebRTCCall";
 
 interface CallSchedulingProps {
   currentUserId: string;
@@ -253,11 +253,17 @@ export default function CallScheduling({
       className="space-y-6"
     >
       {/* WebRTC Call Modal */}
-      <WebRTCCall
-        isCallActive={activeCallId !== null}
-        onCallStart={handleCallStart}
-        onCallEnd={handleCallEnd}
-      />
+      {activeCallId && (
+        <WebRTCCall
+          isCallActive={true}
+          onCallStart={handleCallStart}
+          onCallEnd={handleCallEnd}
+          roomId={activeCallId}
+          userId={currentUserId}
+          pairedUserName={pairedUser?.fullName || "Unknown User"}
+          isInitiator={currentUserRole === "mentor"}
+        />
+      )}
       {successMessage && (
         <motion.div
           initial={{ opacity: 0 }}
